@@ -12,6 +12,7 @@ module API
     # GET /appointments/1
     # GET /appointments/1.json
     def show
+      render json: @appointment
     end
 
     # GET /appointments/new
