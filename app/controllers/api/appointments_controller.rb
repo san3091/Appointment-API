@@ -31,7 +31,7 @@ module API
 
       respond_to do |format|
         if @appointment.save
-          format.json { render :show, status: :created, location: @appointment }
+          format.json { render :show, status: :created, location: api_appointment_url(@appointment) }
         else
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
         end

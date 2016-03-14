@@ -13,6 +13,9 @@ RSpec.describe "Appointments", type: :request do
         }.to_json,
         { "Accept" => Mime::JSON, "Content-Type" => Mime::JSON.to_s }
       expect(response).to have_http_status(201)
+
+      appointment = JSON.parse(response.body, symbolize_names: true)
+      expect(response.location).to eq(api_appointment_url(appointment[:id]))
     end
   end
   
