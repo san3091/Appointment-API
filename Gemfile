@@ -37,7 +37,7 @@ group :development, :test do
   # Test using rspec
   gem 'rspec-rails'
   # Use pry for runtime debugging
-  gem 'pry'
+  gem 'pry-rails'
 end
 
 group :development do
