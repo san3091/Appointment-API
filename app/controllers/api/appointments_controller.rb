@@ -30,7 +30,7 @@ module API
       @appointment = Appointment.new(parsed_params)
 
       respond_to do |format|
-        if @appointment.start_time.nil? || !@appointment.start_time.future?
+        if @appointment.start_time.nil? || !@appointment.start_time.future? || @appointment.overlap?
           format.json { render json: @appointment.errors, status: :unprocessable_entity}
         else
           if @appointment.save

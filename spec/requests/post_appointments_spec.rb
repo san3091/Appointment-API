@@ -52,6 +52,7 @@ RSpec.describe "Appointments", type: :request do
 
     it "doesn't create an appointment if it overlaps with another one" do
       Appointment.create!(start_time: "11/1/16 8:00", end_time: "11/1/16 10:00")
+      Appointment.create!(start_time: "11/1/16 2:00", end_time: "11/1/16 2:30")
       post '/appointments',
       { appointment:
         { start_time: "11/1/16 9:00", 
