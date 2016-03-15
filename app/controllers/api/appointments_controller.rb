@@ -6,6 +6,7 @@ module API
     # GET /appointments.json
     def index
       @appointments = Appointment.all
+      # TODO implement time restriction queries
       render json: @appointments
     end
 
