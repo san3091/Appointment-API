@@ -50,6 +50,19 @@ RSpec.describe "Appointments", type: :request do
       expect(response).to have_http_status(422)
     end
 
+    it "doesn't create an appointment if it overlaps with another one" do
+      Appointment.create!(start_time: "11/1/16 8:00", end_time: "11/1/16 10:00")
+      post '/appointments',
+      { appointment:
+        { start_time: "11/1/16 9:00", 
+          end_time: "11/1/16 11:00"
+        }
+      }.to_json,
+      { "Accept" => Mime::JSON, 
+        "Content-Type" => Mime::JSON.to_s 
+      }
 
+      expect(response).to have_http_status(422)
+    end
   end
 end
