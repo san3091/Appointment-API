@@ -9,7 +9,9 @@ RSpec.describe "Appointments", type: :request do
       post '/appointments',
       { appointment:
         { start_time: "11/1/16 9:00", 
-          end_time: "11/1/16 9:30"
+          end_time: "11/1/16 9:30",
+          first_name: "santiago",
+          last_name: "quintana"
         }
       }.to_json,
       { "Accept" => Mime::JSON, 
@@ -105,7 +107,6 @@ RSpec.describe "Appointments", type: :request do
 
       appointment = JSON.parse(response.body, symbolize_names: true)
       expect(response.location).to eq(api_appointment_url(appointment[:id]))
-      p appointment
       expect(appointment[:first_name]).to eq("santiago")
     end
   end

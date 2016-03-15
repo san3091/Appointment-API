@@ -7,15 +7,21 @@ RSpec.describe "Appointments", type: :request do
     before do 
       Appointment.create!(
         start_time: Time.strptime("11/1/16 7:00", "%m/%d/%y %H:%M"), 
-        end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M")
+        end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M"),
+        first_name: "santiago",
+        last_name: "quintana"
         )
       Appointment.create!(
         start_time: Time.strptime("5/1/16 7:00", "%m/%d/%y %H:%M"), 
-        end_time: Time.strptime("5/1/16 7:00", "%m/%d/%y %H:%M")
+        end_time: Time.strptime("5/1/16 7:00", "%m/%d/%y %H:%M"),
+        first_name: "santiago",
+        last_name: "quintana"
         )
       Appointment.create!(
         start_time: Time.strptime("11/1/16 2:00", "%m/%d/%y %H:%M"), 
-        end_time: Time.strptime("11/1/16 3:00", "%m/%d/%y %H:%M")
+        end_time: Time.strptime("11/1/16 3:00", "%m/%d/%y %H:%M"),
+        first_name: "santiago",
+        last_name: "quintana"
         )
     end
 
@@ -29,7 +35,9 @@ RSpec.describe "Appointments", type: :request do
       get "/appointments",
       { date_range: 
         { start_time: Time.strptime("11/1/16 6:00", "%m/%d/%y %H:%M"),
-          end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M")
+          end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M"),
+          first_name: "santiago",
+          last_name: "quintana"
         }
       }.to_json,
       { "Accept" => Mime::JSON, 
@@ -38,13 +46,19 @@ RSpec.describe "Appointments", type: :request do
 
       expect(response).to have_http_status(200)
       appointments = JSON.parse(response.body, symbolize_names: true)
-      p appointments
       expect(appointments.length).to eq(1)
     end
   end
 
   describe "GET /appointments/:id" do
-    before { @appointment = Appointment.create!(start_time: "11/1/16 9:00", end_time: "11/1/16 9:30") }
+    before do 
+      @appointment = Appointment.create!(
+      start_time: "11/1/16 9:00", 
+      end_time: "11/1/16 9:30",
+      first_name: "santiago",
+      last_name: "quintana"
+      )
+    end
 
     it "returns the appointment by id" do
       get "/appointments/#{@appointment.id}"

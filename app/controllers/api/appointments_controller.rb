@@ -12,11 +12,7 @@ module API
         @appointments = Appointment.search_by_date_range(start_time, end_time)
 
       elsif (first_name = params[:first_name]) || (last_name = params[:last_name])
-        p params
-        p "first time: #{first_name}"
-        p "last name: #{last_name}"
         @appointments = Appointment.search_by_name(first_name, last_name)
-        p @appointments
       else 
         # return all appointments
         @appointments = Appointment.all
@@ -34,7 +30,6 @@ module API
     # POST /appointments.json
     def create
       @appointment = Appointment.new(parsed_params)
-      p @appointment
 
       respond_to do |format|
         if invalid_time
