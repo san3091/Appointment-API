@@ -5,12 +5,14 @@ module API
     # GET /appointments
     # GET /appointments.json
     def index
-      @appointments = Appointment.all
-      # TODO implement time restriction queries
       if date_range = params[:date_range]
-        p "*"*500
-        p "#{params}"
-        p "#{date_range}"
+        # return the appointments that are between the start and end time
+        start_time = date_range[:start_time]
+        end_time = date_range[:end_time]
+        @appointments = Appointment.search_by_date_range(start_time, end_time)
+      else 
+        # return all appointments
+        @appointments = Appointment.all
       end
       render json: @appointments
     end
@@ -74,9 +76,9 @@ module API
       def parsed_params
         start_time = appointment_params[:start_time]
         end_time = appointment_params[:end_time]
-        appointment_params[:start_time] = Time.strptime(start_time, "%m/%d/%y %I:%M") unless start_time.nil?
-        appointment_params[:end_time] = Time.strptime(end_time, "%m/%d/%y %I:%M") unless end_time.nil?
-        appointment_params
+        appointment_params[:start_time] = Time.strptime(start_time, "%m/%d/%y %H:%M") unless start_time.nil?
+        appointment_params[:end_time] = Time.strptime(end_time, "%m/%d/%y %H:%M") unless end_time.nil?
+        p appointment_params
       end
 
       # Use callbacks to share common setup or constraints between actions.

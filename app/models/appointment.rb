@@ -10,6 +10,13 @@ class Appointment < ActiveRecord::Base
     Appointment.where("start_time like ?", "%#{date}%") || false
   end
 
+  def self.search_by_date_range(start_time, end_time)
+    p start_time
+    start_time = Time.strptime(start_time, "%m/%d/%y %H:%M")
+    end_time = Time.strptime(end_time, "%m/%d/%y %H:%M")
+    appointments = Appointment.where(start_time: (start_time..end_time)).where(end_time: (start_time..end_time))
+  end
+
   # Check for overlap in appointment times
   def overlap?
     matches = self.get_same_day_appts

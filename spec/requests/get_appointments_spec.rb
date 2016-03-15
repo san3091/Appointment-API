@@ -5,9 +5,18 @@ RSpec.describe "Appointments", type: :request do
   
   describe "GET /appointments" do
     before do 
-      Appointment.create!(start_time: "11/1/16 7:00", end_time: "11/1/16 8:00")
-      Appointment.create!(start_time: "13/1/16 7:00", end_time: "13/1/16 8:00")
-      Appointment.create!(start_time: "11/1/16 2:00", end_time: "11/1/16 3:00")
+      Appointment.create!(
+        start_time: Time.strptime("11/1/16 7:00", "%m/%d/%y %H:%M"), 
+        end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M")
+        )
+      Appointment.create!(
+        start_time: Time.strptime("5/1/16 7:00", "%m/%d/%y %H:%M"), 
+        end_time: Time.strptime("5/1/16 7:00", "%m/%d/%y %H:%M")
+        )
+      Appointment.create!(
+        start_time: Time.strptime("11/1/16 2:00", "%m/%d/%y %H:%M"), 
+        end_time: Time.strptime("11/1/16 3:00", "%m/%d/%y %H:%M")
+        )
     end
 
     it "returns all appointments" do
@@ -19,13 +28,17 @@ RSpec.describe "Appointments", type: :request do
     it "returns all appointments in a date range" do
       get "/appointments",
       { date_range: 
-        { start_time: "11/1/16 5:00",
-          end_time: "11/1/16 8:00" 
+        { start_time: Time.strptime("11/1/16 6:00", "%m/%d/%y %H:%M"),
+          end_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M")
         }
-      }.to_json
+      }.to_json,
+      { "Accept" => Mime::JSON, 
+        "Content-Type" => Mime::JSON.to_s 
+      }
 
       expect(response).to have_http_status(200)
       appointments = JSON.parse(response.body, symbolize_names: true)
+      p appointments
       expect(appointments.length).to eq(1)
     end
   end
