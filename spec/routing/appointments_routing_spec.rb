@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AppointmentsController, type: :routing do
+RSpec.describe API::AppointmentsController, type: :routing do
   describe "routing" do
 
     it "routes to #index" do

@@ -30,7 +30,7 @@ module API
       @appointment = Appointment.new(parsed_params)
 
       respond_to do |format|
-        if valid_time
+        if invalid_time
           format.json { render json: @appointment.errors, status: :unprocessable_entity}
         else
           if @appointment.save
@@ -40,17 +40,20 @@ module API
           end
         end
       end
-      
     end
 
     # PATCH/PUT /appointments/1
     # PATCH/PUT /appointments/1.json
     def update
       respond_to do |format|
-        if @appointment.update(appointment_params)
-          format.json { render :show, status: :ok, location: @appointment }
-        else
+        if invalid_time
           format.json { render json: @appointment.errors, status: :unprocessable_entity }
+        else
+          if @appointment.update(appointment_params)
+            format.json { render :show, status: :ok, location: api_appointment_url(@appointment) }
+          else
+            format.json { render json: @appointment.errors, status: :unprocessable_entity }
+          end
         end
       end
     end
@@ -66,7 +69,7 @@ module API
 
     private
 
-      def valid_time
+      def invalid_time
         @appointment.start_time.nil? || !@appointment.start_time.future? || @appointment.overlap?
       end
 
