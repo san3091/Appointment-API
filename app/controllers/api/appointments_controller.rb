@@ -10,7 +10,13 @@ module API
         start_time = date_range[:start_time]
         end_time = date_range[:end_time]
         @appointments = Appointment.search_by_date_range(start_time, end_time)
-        
+
+      elsif (first_name = params[:first_name]) || (last_name = params[:last_name])
+        p params
+        p "first time: #{first_name}"
+        p "last name: #{last_name}"
+        @appointments = Appointment.search_by_name(first_name, last_name)
+        p @appointments
       else 
         # return all appointments
         @appointments = Appointment.all
@@ -80,7 +86,7 @@ module API
         end_time = appointment_params[:end_time]
         appointment_params[:start_time] = Time.strptime(start_time, "%m/%d/%y %H:%M") unless start_time.nil?
         appointment_params[:end_time] = Time.strptime(end_time, "%m/%d/%y %H:%M") unless end_time.nil?
-        p appointment_params
+        appointment_params
       end
 
       # Use callbacks to share common setup or constraints between actions.

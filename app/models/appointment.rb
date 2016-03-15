@@ -16,7 +16,7 @@ class Appointment < ActiveRecord::Base
     p start_time
     start_time = Time.strptime(start_time, "%m/%d/%y %H:%M")
     end_time = Time.strptime(end_time, "%m/%d/%y %H:%M")
-    Appointment.where(start_time: (start_time..end_time)).where(end_time: (start_time..end_time))
+    Appointment.where(start_time: (start_time..end_time)).or(end_time: (start_time..end_time))
   end
 
   # Check for overlap in appointment times
@@ -33,5 +33,10 @@ class Appointment < ActiveRecord::Base
   # Refactor the specific time overlap check
   def time_overlap?(time, appt)
     time.between?(appt.start_time, appt.end_time)
+  end
+
+  # Search by first or last name
+  def self.search_by_name(first_name, last_name)
+    @appointments = Appointment.where("first_name = ? or last_name = ?", first_name, last_name)
   end
 end
