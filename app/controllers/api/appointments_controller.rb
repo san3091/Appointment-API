@@ -30,7 +30,7 @@ module API
       @appointment = Appointment.new(parsed_params)
 
       respond_to do |format|
-        if @appointment.start_time.nil? || !@appointment.start_time.future? || @appointment.overlap?
+        if valid_time
           format.json { render json: @appointment.errors, status: :unprocessable_entity}
         else
           if @appointment.save
@@ -65,6 +65,10 @@ module API
     end
 
     private
+
+      def valid_time
+        @appointment.start_time.nil? || !@appointment.start_time.future? || @appointment.overlap?
+      end
 
       # Parse sanitized params start and end time using Active Support
       def parsed_params
