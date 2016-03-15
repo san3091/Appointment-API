@@ -4,7 +4,7 @@ RSpec.describe "Appointments", type: :request do
   before { host! "api.example.com" }
   
   describe "GET /appointments" do
-    before { Appointment.create!(start_time: "11/1/13 7:00", end_time: "11.1.13 8:00") }
+    before { Appointment.create!(start_time: "11/1/16 7:00", end_time: "11.1.16 8:00") }
 
     it "retrieves all appointments" do
       get "/appointments"
@@ -14,7 +14,7 @@ RSpec.describe "Appointments", type: :request do
   end
 
   describe "GET /appointments/:id" do
-    before { @appointment = Appointment.create!(start_time: "11/1/13 9:00", end_time: "11.1.13 9:30") }
+    before { @appointment = Appointment.create!(start_time: "11/1/16 9:00", end_time: "11.1.16 9:30") }
 
     it "retrieves the appointment by id" do
       get "/appointments/#{@appointment.id}"
