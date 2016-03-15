@@ -2,10 +2,9 @@
 
 Api used for scheduling appointments.
 
-The base address is api.example.com/
 All endpoints return json
 
-## Requests
+## Endpoints
 
 #### GET 
   + /appointments
@@ -32,3 +31,7 @@ All endpoints return json
 #### PATCH 
   + /appointments/1
     - updates attributes for appointment 1
+
+## Testing
+
+Database can be seeded from included csv file by calling `rake import`
