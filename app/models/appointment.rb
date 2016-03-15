@@ -1,4 +1,5 @@
 class Appointment < ActiveRecord::Base
+  belongs_to :patient
   validates :start_time, presence: true
   validates :end_time, presence: true
 
@@ -14,7 +15,7 @@ class Appointment < ActiveRecord::Base
     p start_time
     start_time = Time.strptime(start_time, "%m/%d/%y %H:%M")
     end_time = Time.strptime(end_time, "%m/%d/%y %H:%M")
-    appointments = Appointment.where(start_time: (start_time..end_time)).where(end_time: (start_time..end_time))
+    Appointment.where(start_time: (start_time..end_time)).where(end_time: (start_time..end_time))
   end
 
   # Check for overlap in appointment times
