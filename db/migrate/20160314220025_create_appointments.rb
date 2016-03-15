@@ -3,6 +3,8 @@ class CreateAppointments < ActiveRecord::Migration
     create_table :appointments do |t|
       t.datetime :start_time, null: false
       t.datetime :end_time, null: false
+      t.string :first_name
+      t.string :last_name
 
       t.timestamps null: false
     end
