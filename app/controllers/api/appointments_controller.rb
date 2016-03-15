@@ -78,7 +78,7 @@ module API
         end_time = appointment_params[:end_time]
         appointment_params[:start_time] = Time.strptime(start_time, "%m/%d/%y %H:%M") unless start_time.nil?
         appointment_params[:end_time] = Time.strptime(end_time, "%m/%d/%y %H:%M") unless end_time.nil?
-        p appointment_params
+        appointment_params
       end
 
       # Use callbacks to share common setup or constraints between actions.
@@ -89,7 +89,7 @@ module API
       # Never trust parameters from the scary internet, only allow the white list through.
       # Lazy cache
       def appointment_params
-        @appointment_params ||= params.require(:appointment).permit(:start_time, :end_time)
+        @appointment_params ||= params.require(:appointment).permit(:start_time, :end_time, :first_name, :last_name)
       end
   end
 end
