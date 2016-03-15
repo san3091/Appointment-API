@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315154526) do
+ActiveRecord::Schema.define(version: 20160315155454) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "start_time", null: false
     t.datetime "end_time",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "appointments", ["end_time"], name: "index_appointments_on_end_time", unique: true
