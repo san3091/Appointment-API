@@ -24,6 +24,23 @@ RSpec.describe "Appointments", type: :request do
       appointment = JSON.parse(response.body, symbolize_names: true)
       expect(response.location).to eq(api_appointment_url(appointment[:id]))
     end
+
+    it "doesn't create an appointment with missing date" do
+      post '/appointments',
+      { 
+        appointment:
+        { 
+          start_time: nil, 
+          end_time: "11.1.13 9:30"
+        }
+      }.to_json,
+      { 
+        "Accept" => Mime::JSON, 
+        "Content-Type" => Mime::JSON.to_s 
+      }
+
+      expect(response).to have_http_status(422)
+    end
   end
   
 end
