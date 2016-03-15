@@ -1,5 +1,4 @@
 class Appointment < ActiveRecord::Base
-  belongs_to :patient
   validates :start_time, presence: true
   validates :end_time, presence: true
 
