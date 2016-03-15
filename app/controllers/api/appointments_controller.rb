@@ -7,6 +7,11 @@ module API
     def index
       @appointments = Appointment.all
       # TODO implement time restriction queries
+      if date_range = params[:date_range]
+        p "*"*500
+        p "#{params}"
+        p "#{date_range}"
+      end
       render json: @appointments
     end
 
@@ -14,15 +19,6 @@ module API
     # GET /appointments/1.json
     def show
       render json: @appointment
-    end
-
-    # GET /appointments/new
-    def new
-      @appointment = Appointment.new
-    end
-
-    # GET /appointments/1/edit
-    def edit
     end
 
     # POST /appointments
