@@ -20,13 +20,16 @@ RSpec.describe "Appointments", type: :request do
 
       appointment = JSON.parse(response.body, symbolize_names: true)
       expect(response.location).to eq(api_appointment_url(appointment[:id]))
+      expect(appointment[:first_name]).to eq("santiago")
     end
 
     it "doesn't create an appointment with missing date" do
       post '/appointments',
       { appointment:
         { start_time: nil, 
-          end_time: "11/1/16 9:30"
+          end_time: "11/1/16 9:30",
+          first_name: "santiago",
+          last_name: "quintana"
         }
       }.to_json,
       { "Accept" => Mime::JSON, 
@@ -40,7 +43,9 @@ RSpec.describe "Appointments", type: :request do
       post '/appointments',
       { appointment:
         { start_time: "11/1/13 9:00", 
-          end_time: "11/1/13 9:30"
+          end_time: "11/1/13 9:30",
+          first_name: "santiago",
+          last_name: "quintana"
         }
       }.to_json,
       { "Accept" => Mime::JSON, 
@@ -53,17 +58,23 @@ RSpec.describe "Appointments", type: :request do
     it "doesn't create an appointment if it overlaps with another one" do
       Appointment.create!(
         start_time: Time.strptime("11/1/16 8:00", "%m/%d/%y %H:%M"), 
-        end_time: Time.strptime("11/1/16 10:00", "%m/%d/%y %H:%M")
+        end_time: Time.strptime("11/1/16 10:00", "%m/%d/%y %H:%M"),
+        first_name: "santiago",
+        last_name: "quintana"
         )
       Appointment.create!(
         start_time: Time.strptime("11/1/16 2:00", "%m/%d/%y %H:%M"), 
-        end_time: Time.strptime("11/1/16 3:00", "%m/%d/%y %H:%M")
+        end_time: Time.strptime("11/1/16 3:00", "%m/%d/%y %H:%M"),
+        first_name: "santiago",
+        last_name: "quintana"
         )
       
       post '/appointments',
       { appointment:
         { start_time: "11/1/16 9:00", 
-          end_time: "11/1/16 11:00"
+          end_time: "11/1/16 11:00",
+          first_name: "santiago",
+          last_name: "quintana"
         }
       }.to_json,
       { "Accept" => Mime::JSON, 
@@ -94,6 +105,8 @@ RSpec.describe "Appointments", type: :request do
 
       appointment = JSON.parse(response.body, symbolize_names: true)
       expect(response.location).to eq(api_appointment_url(appointment[:id]))
+      p appointment
+      expect(appointment[:first_name]).to eq("santiago")
     end
   end
 

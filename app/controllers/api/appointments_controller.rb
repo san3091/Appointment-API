@@ -10,6 +10,7 @@ module API
         start_time = date_range[:start_time]
         end_time = date_range[:end_time]
         @appointments = Appointment.search_by_date_range(start_time, end_time)
+        
       else 
         # return all appointments
         @appointments = Appointment.all
@@ -27,6 +28,7 @@ module API
     # POST /appointments.json
     def create
       @appointment = Appointment.new(parsed_params)
+      p @appointment
 
       respond_to do |format|
         if invalid_time
@@ -78,7 +80,7 @@ module API
         end_time = appointment_params[:end_time]
         appointment_params[:start_time] = Time.strptime(start_time, "%m/%d/%y %H:%M") unless start_time.nil?
         appointment_params[:end_time] = Time.strptime(end_time, "%m/%d/%y %H:%M") unless end_time.nil?
-        appointment_params
+        p appointment_params
       end
 
       # Use callbacks to share common setup or constraints between actions.

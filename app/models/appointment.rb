@@ -1,6 +1,8 @@
 class Appointment < ActiveRecord::Base
   validates :start_time, presence: true
   validates :end_time, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def get_same_day_appts
     search_by_date(self.start_time.to_date)
