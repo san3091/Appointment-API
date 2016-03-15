@@ -28,23 +28,17 @@ module API
     # POST /appointments.json
     def create
       @appointment = Appointment.new(parsed_params)
-      # current_time = Time.now
 
       respond_to do |format|
         if @appointment.start_time.nil? || !@appointment.start_time.future?
-
           format.json { render json: @appointment.errors, status: :unprocessable_entity}
-
         else
-
           if @appointment.save
             format.json { render :show, status: :created, location: api_appointment_url(@appointment) }
           else
             format.json { render json: @appointment.errors, status: :unprocessable_entity }
           end
-
         end
-
       end
       
     end
